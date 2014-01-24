@@ -85,6 +85,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Database\Airport.cs">
+      <DependentUpon>ERM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\ERM.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -99,6 +102,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ERM.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Flight.cs">
+      <DependentUpon>ERM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Passenger.cs">
+      <DependentUpon>ERM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Reservation.cs">
+      <DependentUpon>ERM.tt</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -158,6 +170,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <Content Include="Database\ERM.edmx.sql" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

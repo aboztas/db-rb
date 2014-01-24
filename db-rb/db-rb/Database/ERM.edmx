@@ -4,22 +4,304 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityContainer Name="DatabaseModelStoreContainer" />
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="DatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DatabaseModelStoreContainer">
+    <EntitySet Name="Reservation" EntityType="DatabaseModel.Store.Reservation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Passenger" EntityType="DatabaseModel.Store.Passenger" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Flight" EntityType="DatabaseModel.Store.Flight" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Airport" EntityType="DatabaseModel.Store.Airport" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReservationPassenger" EntityType="DatabaseModel.Store.ReservationPassenger" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FlightAirport" Association="DatabaseModel.Store.FlightAirport">
+      <End Role="Flight" EntitySet="Flight" />
+      <End Role="Airport" EntitySet="Airport" />
+    </AssociationSet>
+    <AssociationSet Name="AirportFlight" Association="DatabaseModel.Store.AirportFlight">
+      <End Role="Airport" EntitySet="Airport" />
+      <End Role="Flight" EntitySet="Flight" />
+    </AssociationSet>
+    <AssociationSet Name="ReservationFlight" Association="DatabaseModel.Store.ReservationFlight">
+      <End Role="Reservation" EntitySet="Reservation" />
+      <End Role="Flight" EntitySet="Flight" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReservationPassenger_Reservation" Association="DatabaseModel.Store.FK_ReservationPassenger_Reservation">
+      <End Role="Reservation" EntitySet="Reservation" />
+      <End Role="ReservationPassenger" EntitySet="ReservationPassenger" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ReservationPassenger_Passenger" Association="DatabaseModel.Store.FK_ReservationPassenger_Passenger">
+      <End Role="Passenger" EntitySet="Passenger" />
+      <End Role="ReservationPassenger" EntitySet="ReservationPassenger" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Flight_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Passenger">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Birthdate" Type="datetime" Nullable="false" />
+    <Property Name="Sex" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Flight">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Company" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Arrival_Id" Type="int" Nullable="false" />
+    <Property Name="Departure_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Airport">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ReservationPassenger">
+    <Key>
+      <PropertyRef Name="Reservations_Id" />
+      <PropertyRef Name="Passenger_Id" />
+    </Key>
+    <Property Name="Reservations_Id" Type="int" Nullable="false" />
+    <Property Name="Passenger_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FlightAirport">
+    <End Role="Flight" Type="DatabaseModel.Store.Flight" Multiplicity="*" />
+    <End Role="Airport" Type="DatabaseModel.Store.Airport" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Airport">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Flight">
+        <PropertyRef Name="Arrival_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AirportFlight">
+    <End Role="Airport" Type="DatabaseModel.Store.Airport" Multiplicity="1" />
+    <End Role="Flight" Type="DatabaseModel.Store.Flight" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Airport">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Flight">
+        <PropertyRef Name="Departure_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ReservationFlight">
+    <End Role="Reservation" Type="DatabaseModel.Store.Reservation" Multiplicity="*" />
+    <End Role="Flight" Type="DatabaseModel.Store.Flight" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Flight">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="Flight_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReservationPassenger_Reservation">
+    <End Role="Reservation" Type="DatabaseModel.Store.Reservation" Multiplicity="1" />
+    <End Role="ReservationPassenger" Type="DatabaseModel.Store.ReservationPassenger" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reservation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReservationPassenger">
+        <PropertyRef Name="Reservations_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ReservationPassenger_Passenger">
+    <End Role="ReservationPassenger" Type="DatabaseModel.Store.ReservationPassenger" Multiplicity="*" />
+    <End Role="Passenger" Type="DatabaseModel.Store.Passenger" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Passenger">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ReservationPassenger">
+        <PropertyRef Name="Passenger_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true" />
+        <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Reservation" EntityType="DatabaseModel.Reservation" />
+          <EntitySet Name="Passenger" EntityType="DatabaseModel.Passenger" />
+          <EntitySet Name="Flight" EntityType="DatabaseModel.Flight" />
+          <EntitySet Name="Airport" EntityType="DatabaseModel.Airport" />
+          <AssociationSet Name="FlightAirport" Association="DatabaseModel.FlightAirport">
+            <End Role="Flight" EntitySet="Flight" />
+            <End Role="Airport" EntitySet="Airport" />
+          </AssociationSet>
+          <AssociationSet Name="AirportFlight" Association="DatabaseModel.AirportFlight">
+            <End Role="Airport" EntitySet="Airport" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="ReservationFlight" Association="DatabaseModel.ReservationFlight">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="Flight" EntitySet="Flight" />
+          </AssociationSet>
+          <AssociationSet Name="ReservationPassenger" Association="DatabaseModel.ReservationPassenger">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="Passenger" EntitySet="Passenger" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Flight" Relationship="DatabaseModel.ReservationFlight" FromRole="Reservation" ToRole="Flight" />
+          <NavigationProperty Name="Passenger" Relationship="DatabaseModel.ReservationPassenger" FromRole="Reservation" ToRole="Passenger" />
+        </EntityType>
+        <EntityType Name="Passenger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Surname" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Birthdate" Type="DateTime" Nullable="false" />
+          <Property Name="Sex" Type="String" Nullable="false" />
+          <NavigationProperty Name="Reservations" Relationship="DatabaseModel.ReservationPassenger" FromRole="Passenger" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="Flight">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <NavigationProperty Name="Arrival" Relationship="DatabaseModel.FlightAirport" FromRole="Flight" ToRole="Airport" />
+          <NavigationProperty Name="Departure" Relationship="DatabaseModel.AirportFlight" FromRole="Flight" ToRole="Airport" />
+          <NavigationProperty Name="Reservations" Relationship="DatabaseModel.ReservationFlight" FromRole="Flight" ToRole="Reservation" />
+          <Property Name="Date" Type="DateTime" Nullable="false" />
+          <Property Name="Company" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Airport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="ArrivalFlights" Relationship="DatabaseModel.FlightAirport" FromRole="Airport" ToRole="Flight" />
+          <NavigationProperty Name="DepartureFlights" Relationship="DatabaseModel.AirportFlight" FromRole="Airport" ToRole="Flight" />
+        </EntityType>
+        <Association Name="FlightAirport">
+          <End Type="DatabaseModel.Flight" Role="Flight" Multiplicity="*" />
+          <End Type="DatabaseModel.Airport" Role="Airport" Multiplicity="1" />
+        </Association>
+        <Association Name="AirportFlight">
+          <End Type="DatabaseModel.Airport" Role="Airport" Multiplicity="1" />
+          <End Type="DatabaseModel.Flight" Role="Flight" Multiplicity="*" />
+        </Association>
+        <Association Name="ReservationFlight">
+          <End Type="DatabaseModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <End Type="DatabaseModel.Flight" Role="Flight" Multiplicity="1" />
+        </Association>
+        <Association Name="ReservationPassenger">
+          <End Type="DatabaseModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <End Type="DatabaseModel.Passenger" Role="Passenger" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities" />
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities">
+    <EntitySetMapping Name="Reservation">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.Reservation)">
+        <MappingFragment StoreEntitySet="Reservation">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Passenger">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.Passenger)">
+        <MappingFragment StoreEntitySet="Passenger">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Flight">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.Flight)">
+        <MappingFragment StoreEntitySet="Flight">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Airport">
+      <EntityTypeMapping TypeName="IsTypeOf(DatabaseModel.Airport)">
+        <MappingFragment StoreEntitySet="Airport">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FlightAirport" TypeName="DatabaseModel.FlightAirport" StoreEntitySet="Flight">
+      <EndProperty Name="Airport">
+        <ScalarProperty Name="Id" ColumnName="Arrival_Id" />
+      </EndProperty>
+      <EndProperty Name="Flight">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AirportFlight" TypeName="DatabaseModel.AirportFlight" StoreEntitySet="Flight">
+      <EndProperty Name="Airport">
+        <ScalarProperty Name="Id" ColumnName="Departure_Id" />
+      </EndProperty>
+      <EndProperty Name="Flight">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ReservationFlight" TypeName="DatabaseModel.ReservationFlight" StoreEntitySet="Reservation">
+      <EndProperty Name="Flight">
+        <ScalarProperty Name="Id" ColumnName="Flight_Id" />
+      </EndProperty>
+      <EndProperty Name="Reservation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ReservationPassenger" TypeName="DatabaseModel.ReservationPassenger" StoreEntitySet="ReservationPassenger">
+      <EndProperty Name="Reservation">
+        <ScalarProperty Name="Id" ColumnName="Reservations_Id" />
+      </EndProperty>
+      <EndProperty Name="Passenger">
+        <ScalarProperty Name="Id" ColumnName="Passenger_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -33,7 +315,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
       </DesignerInfoPropertySet>
     </Options>

@@ -25,5 +25,9 @@ namespace db_rb.Database
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Reservation> Reservation { get; set; }
+        public virtual DbSet<Passenger> Passenger { get; set; }
+        public virtual DbSet<Flight> Flight { get; set; }
+        public virtual DbSet<Airport> Airport { get; set; }
     }
 }
