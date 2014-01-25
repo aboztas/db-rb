@@ -5,10 +5,10 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="5cd98f04a2934a149917c1f580d6bcca" Name="Diagram1" >
-        <EntityTypeShape EntityType="DatabaseModel.Reservation" Width="2.5" PointX="3.375" PointY="0.5" />
-        <EntityTypeShape EntityType="DatabaseModel.Passenger" Width="1.5" PointX="3.375" PointY="3" />
+        <EntityTypeShape EntityType="DatabaseModel.Reservation" Width="2.5" PointX="5.75" PointY="0.5" />
+        <EntityTypeShape EntityType="DatabaseModel.Passenger" Width="1.5" PointX="5.75" PointY="3.25" />
         <EntityTypeShape EntityType="DatabaseModel.Flight" Width="1.5" PointX="1" PointY="0.5" />
-        <EntityTypeShape EntityType="DatabaseModel.Airport" Width="1.5" PointX="1" PointY="2.75" />
+        <EntityTypeShape EntityType="DatabaseModel.Airport" Width="1.5" PointX="1" PointY="3.375" />
         <AssociationConnector Association="DatabaseModel.FlightAirport" />
         <AssociationConnector Association="DatabaseModel.AirportFlight" />
         <AssociationConnector Association="DatabaseModel.ReservationFlight" />

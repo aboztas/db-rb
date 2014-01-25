@@ -1,0 +1,39 @@
+﻿<Window x:Class="db_rb.Config.Config"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Config" Height="428.358" Width="768.657">
+    <Grid>
+
+        <TabControl Margin="10">
+            <TabItem Header="Vorlagen">
+                <Grid Background="#FFE5E5E5" Margin="0,-6,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="431"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="../Icons/add.png" HorizontalAlignment="Left" Height="23" Margin="74,10,0,0" VerticalAlignment="Top" Width="29"/>
+                    <CheckBox Content="Firmenlogo" HorizontalAlignment="Left" Height="21" Margin="13,47,0,0" VerticalAlignment="Top" Width="86"/>
+                    <CheckBox Content="AGB" HorizontalAlignment="Left" Height="21" Margin="13,150,0,0" VerticalAlignment="Top" Width="86"/>
+                    <CheckBox Content="Adresse" HorizontalAlignment="Left" Height="21" Margin="13,72,0,0" VerticalAlignment="Top" Width="86"/>
+                    <ComboBox HorizontalAlignment="Left" Height="23" Margin="108,10,0,0" VerticalAlignment="Top" Width="319"/>
+                    <TextBox Name="TextBox_AGB" HorizontalAlignment="Left" Height="114" Margin="108,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="319"/>
+                    <TextBox HorizontalAlignment="Left" Height="21" Margin="108,72,0,0" TextWrapping="Wrap" Text="Adresse" VerticalAlignment="Top" Width="157"/>
+                    <TextBox HorizontalAlignment="Left" Height="21" Margin="270,72,0,0" TextWrapping="Wrap" Text="PLZ" VerticalAlignment="Top" Width="76"/>
+                    <TextBox HorizontalAlignment="Left" Height="21" Margin="351,72,0,0" TextWrapping="Wrap" Text="Ort" VerticalAlignment="Top" Width="76" RenderTransformOrigin="0.715,-0.536"/>
+                    <TextBox HorizontalAlignment="Left" Height="21" Margin="108,98,0,0" TextWrapping="Wrap" Text="Telefon" VerticalAlignment="Top" Width="157"/>
+                    <TextBox HorizontalAlignment="Left" Height="21" Margin="270,98,0,0" TextWrapping="Wrap" Text="Telefax" VerticalAlignment="Top" Width="157"/>
+                    <TextBox Name="txtPath" IsReadOnly="True" HorizontalAlignment="Left" Height="20" Margin="108,47,0,0" TextWrapping="Wrap" Text="C:\Users\ademb_000\Desktop\intro.gif" VerticalAlignment="Top" Width="319" MouseDoubleClick="txtPath_MouseDown"/>
+                    <Button Content="Vorschau"  HorizontalAlignment="Left" Height="25" Margin="119,286,0,0" VerticalAlignment="Top" Width="108" Click="Button_Click"/>
+                    <Button Content="Cancel" HorizontalAlignment="Left" Height="25" Margin="232,286,0,0" VerticalAlignment="Top" Width="103" />
+                    <WebBrowser Grid.Column="1" x:Name="Browser" Margin="10,46,10,10"/>
+                    <Button Content="Save"  HorizontalAlignment="Left" Height="25" Margin="13,286,0,0" VerticalAlignment="Top" Width="101"/>
+                    <Label Content="Vorschau:" Grid.Column="1" HorizontalAlignment="Left" Height="28" Margin="9,18,-63,0" VerticalAlignment="Top" Width="358"/>
+                    <TextBox HorizontalAlignment="Left" Height="21" Margin="108,124,0,0" TextWrapping="Wrap" Text="E-Mail" VerticalAlignment="Top" Width="157"/>
+                    <TextBox HorizontalAlignment="Left" Height="21" Margin="270,124,0,0" TextWrapping="Wrap" Text="Webseite" VerticalAlignment="Top" Width="157"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
